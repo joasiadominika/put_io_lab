@@ -126,8 +126,9 @@ Osoba chcąca zakupić produkt na aukcji.
 2. System udostępnia dane aukcji oraz kwotę należności.  
 3. [Kupujący](#ac2) potwierdza chęć dokonania płatności.  
 4. System przekazuje dane do zewnętrznego systemu płatności.  
-5. Po potwierdzeniu płatności system rejestruje transakcję.  
-6. System informuje [Kupującego](#ac2) oraz [Sprzedającego](#ac1) o pomyślnym opłaceniu produktu.  
+5. Po potwierdzeniu płatności system rejestruje nową [Płatność](#bo4).  
+6. System aktualizuje status [Aukcji](#bo1) na „opłacona”.  
+7. System informuje [Kupującego](#ac2) oraz [Sprzedającego](#ac1) o pomyślnym opłaceniu produktu.  
 
 **Scenariusze alternatywne:**  
 4.A. Płatność nie została zrealizowana.  
@@ -155,7 +156,7 @@ Osoba chcąca zakupić produkt na aukcji.
 * 4.A.2. Przejdź do kroku 1.  
 
 
-## Obiewkty biznesowe (inaczje obiekty dziedzinowe lub informatycjne)
+## Obiekty biznesowe (inaczej obiekty dziedzinowe lub informatyczne)
 
 ### BO1: Aukcja
 
@@ -164,6 +165,14 @@ Aukcja jest formą zawierania transakcji kupna-sprzedaży, w której Sprzedając
 ### BO2: Produkt
 
 Fizyczny lub cyfrowy obiekt, który ma zostać sprzedany w ramach aukcji.
+
+### BO3: Oferta
+
+Propozycja ceny złożona przez Kupującego w konkretnej aukcji. Każda kolejna oferta musi przebijać aktualnie najwyższą o co najmniej 1,00 PLN.
+
+### BO4: Płatność
+
+Rekord potwierdzający uregulowanie należności przez zwycięzcę aukcji (identyfikator transakcji, kwota, czas, status).
 
 ## Reguły biznesowe
 
@@ -181,8 +190,10 @@ Aukcję wygrywa ten z [Kupujący](#ac2)ch, który w momencie jej zakończenia (u
 ## Macierz CRUDL
 
 
-| Przypadek użycia                                  | Aukcja | Produkt | ... |
-| ------------------------------------------------- | ------ | ------- | --- |
-| UC1: Wystawienia produktu na aukcję               |    C   |    C    | ... |
-| ???                                               |  ...   |  ...    | ... |
-
+| Przypadek użycia                                  | Aukcja | Produkt | Oferta | Płatność |
+| ------------------------------------------------- | ------ | ------- | ------ | -------- |
+| UC1: Wystawienia produktu na aukcję               |   C    |    C    |        |          |
+| UC2: Złożenie oferty (licytacja)                  |  R,U   |    R    |    C   |          |
+| UC3: Przeglądanie wyników aukcji                  |  R,L   |    R    |    R   |          |
+| UC4: Opłacenie wygranego produktu                 |   U    |         |        |     C    |
+| UC5: Zakończenie aukcji przed czasem              |   U    |         |        |          |
