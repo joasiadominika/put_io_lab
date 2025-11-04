@@ -50,7 +50,7 @@ Osoba chcąca zakupić produkt na aukcji.
 
 [Sprzedający](#ac1):
 * [UC1](#uc1): Wystawienie produktu na aukcję
-* [UC5](#uc5): Zakończenie aukcji przed czasem
+* [UC5](#uc5): Zakończenie aukcji przed czasem (jeśli brak ofert)
 
 [Kupujący](#ac2)
 * [UC2](#uc2): Złożenie oferty (licytacja)
@@ -79,19 +79,81 @@ Osoba chcąca zakupić produkt na aukcji.
 ---
 
 <a id="uc2"></a>
-### UC2: ...
+### UC2: Złożenie oferty (licytacja)
 
-**Aktorzy:** [Sprzedający](#ac1), [Kupujący](#ac2), ...
+**Aktorzy:** [Kupujący](#ac2)
 
 **Scenariusz główny:**
-1. ...
+1. [Kupujący](#ac2) inicjuje złożenie oferty w wybranej aukcji.  
+2. System udostępnia informacje o aktualnej najwyższej ofercie oraz czasie do zakończenia aukcji.  
+3. [Kupujący](#ac2) podaje proponowaną kwotę.  
+4. System weryfikuje, czy kwota jest wyższa od aktualnej najwyższej oferty o co najmniej 1,00 PLN. ([BR1](#br1))  
+5. System zapisuje nową ofertę i aktualizuje dane aukcji.  
+6. System informuje [Kupującego](#ac2) o pomyślnym złożeniu oferty.  
 
-**Scenariusze alternatywne:** 
-
-1.A. ...
-* 4.A.1. ...
+**Scenariusze alternatywne:**  
+4.A. Podano kwotę niezgodną z regułą minimalnego przebicia.  
+* 4.A.1. System informuje o błędnej ofercie.  
+* 4.A.2. Przejdź do kroku 3.
 
 ---
+
+<a id="uc3"></a>
+### UC3: Przeglądanie wyników aukcji
+
+**Aktorzy:** [Kupujący](#ac2)
+
+**Scenariusz główny:**
+1. [Kupujący](#ac2) inicjuje przeglądanie wyników zakończonych aukcji.  
+2. System udostępnia listę aukcji, w których [Kupujący](#ac2) brał udział.  
+3. [Kupujący](#ac2) wskazuje aukcję, której wynik chce poznać.  
+4. System prezentuje wynik aukcji, w tym informację o zwycięzcy i kwocie końcowej.  
+5. System umożliwia przejście do procesu płatności, jeśli [Kupujący](#ac2) wygrał aukcję.  
+
+**Scenariusze alternatywne:**  
+2.A. [Kupujący](#ac2) nie uczestniczył w żadnej zakończonej aukcji.  
+* 2.A.1. System informuje, że brak zakończonych aukcji z udziałem użytkownika.
+
+---
+
+<a id="uc4"></a>
+### UC4: Opłacenie wygranego produktu
+
+**Aktorzy:** [Kupujący](#ac2) (główny), [Sprzedający](#ac1) (drugorzędny)
+
+**Scenariusz główny:**
+1. [Kupujący](#ac2) inicjuje opłacenie produktu wygranego w zakończonej aukcji.  
+2. System udostępnia dane aukcji oraz kwotę należności.  
+3. [Kupujący](#ac2) potwierdza chęć dokonania płatności.  
+4. System przekazuje dane do zewnętrznego systemu płatności.  
+5. Po potwierdzeniu płatności system rejestruje transakcję.  
+6. System informuje [Kupującego](#ac2) oraz [Sprzedającego](#ac1) o pomyślnym opłaceniu produktu.  
+
+**Scenariusze alternatywne:**  
+4.A. Płatność nie została zrealizowana.  
+* 4.A.1. System informuje o nieudanej płatności.  
+* 4.A.2. Przejdź do kroku 3.  
+
+---
+
+<a id="uc5"></a>
+### UC5: Zakończenie aukcji przed czasem
+
+**Aktorzy:** [Sprzedający](#ac1)
+
+**Scenariusz główny:**
+1. [Sprzedający](#ac1) inicjuje zakończenie jednej z aktywnych aukcji.  
+2. System udostępnia informacje o stanie aukcji, w tym o ewentualnych ofertach.  
+3. [Sprzedający](#ac1) potwierdza chęć zakończenia aukcji przed czasem.  
+4. System sprawdza, czy aukcja nie posiada jeszcze żadnych ofert.  
+5. System oznacza aukcję jako zakończoną przed czasem.  
+6. System informuje [Sprzedającego](#ac1) o pomyślnym zakończeniu aukcji.  
+
+**Scenariusze alternatywne:**  
+4.A. Aukcja posiada już złożone oferty.  
+* 4.A.1. System informuje, że zakończenie aukcji jest niemożliwe, ponieważ rozpoczęła się licytacja.  
+* 4.A.2. Przejdź do kroku 1.  
+
 
 ## Obiewkty biznesowe (inaczje obiekty dziedzinowe lub informatycjne)
 
