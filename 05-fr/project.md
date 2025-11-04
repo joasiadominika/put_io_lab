@@ -50,10 +50,12 @@ Osoba chcąca zakupić produkt na aukcji.
 
 [Sprzedający](#ac1):
 * [UC1](#uc1): Wystawienie produktu na aukcję
-* ...
+* [UC5](#uc5): Zakończenie aukcji przed czasem
 
 [Kupujący](#ac2)
-* ...
+* [UC2](#uc2): Złożenie oferty (licytacja)
+* [UC3](#uc3): Przeglądanie wyników aukcji
+* [UC4](#uc4): Opłacenie wygranego produktu
 
 ---
 <a id="uc1"></a>
